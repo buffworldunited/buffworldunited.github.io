@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuffWorld United</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #8B0000;
+    --crimson-bright: #A50000;
+    --crimson-glow: rgba(139,0,0,0.4);
+    --black: #000000;
+    --dark: #0a0a0a;
+    --dark-2: #111111;
+    --dark-3: #1a1a1a;
+    --white: #ffffff;
+    --off-white: #e8e8e8;
+    --gray: #888888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--crimson-bright); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--crimson-bright); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(139,0,0,0.15) 0%, transparent 70%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.01) 2px,
+        rgba(255,255,255,0.01) 4px
+      );
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 25vw, 320px);
+    color: rgba(139,0,0,0.06);
+    letter-spacing: -10px;
+    user-select: none;
+    white-space: nowrap;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-mascot {
+    width: clamp(180px, 25vw, 280px);
+    margin-bottom: 20px;
+    animation: float 4s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 0 40px rgba(139,0,0,0.4));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 12vw, 130px);
+    letter-spacing: 8px;
+    line-height: 0.9;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 60px rgba(139,0,0,0.5);
+  }
+
+  .hero-brand .red { color: var(--crimson-bright); }
+
+  .hero-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12px, 2vw, 16px);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 16px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 400;
+    color: var(--off-white);
+    max-width: 500px;
+    line-height: 1.4;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 50px;
+  }
+
+  .hero-tagline em {
+    font-style: italic;
+    color: var(--crimson-bright);
+    font-weight: 600;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn-primary {
+    background: var(--crimson);
+    color: var(--white);
+    padding: 16px 40px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-primary:hover {
+    background: var(--crimson-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(139,0,0,0.5);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 16px 40px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--crimson-bright);
+    color: var(--crimson-bright);
+    transform: translateY(-2px);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-indicator::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gray), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--crimson), transparent);
+    margin: 0;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    padding: 100px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--crimson-bright);
+    margin-bottom: 24px;
+  }
+
+  .manifesto h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    letter-spacing: 4px;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  .manifesto p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--off-white);
+    max-width: 680px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+
+  /* TRAINING SECTION */
+  .training {
+    padding: 80px 40px;
+    background: var(--dark-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .training::before {
+    content: 'TRAIN';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: rgba(139,0,0,0.05);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .training-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .training-content h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .training-content h2 span { color: var(--crimson-bright); }
+
+  .training-content p {
+    color: var(--off-white);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    font-size: 1rem;
+  }
+
+  .training-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(139,0,0,0.3);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .training-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--crimson);
+  }
+
+  .training-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    right: -60px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(139,0,0,0.15), transparent);
+    border-radius: 50%;
+  }
+
+  .card-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--crimson-bright);
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .card-duration {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .card-includes {
+    list-style: none;
+    margin-bottom: 36px;
+  }
+
+  .card-includes li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.95rem;
+    color: var(--off-white);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card-includes li::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--crimson-bright);
+    flex-shrink: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  .card-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1;
+  }
+
+  .card-price span {
+    font-size: 1.4rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  /* MERCH SECTION */
+  .merch {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .merch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .merch-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .merch-header h2 span { color: var(--crimson-bright); }
+
+  .drop-badge {
+    background: var(--crimson);
+    padding: 8px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-badge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .merch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .merch-item {
+    background: var(--dark-2);
+    aspect-ratio: 3/4;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    group: true;
+  }
+
+  .merch-item:hover .merch-overlay { opacity: 1; }
+  .merch-item:hover .merch-img-placeholder { transform: scale(1.05); }
+
+  .merch-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.4s ease;
+    background: linear-gradient(135deg, var(--dark-2), var(--dark-3));
+  }
+
+  .merch-icon {
+    font-size: 3rem;
+    opacity: 0.15;
+  }
+
+  .merch-coming {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+
+  .merch-bwu-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(139,0,0,0.12);
+    letter-spacing: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .merch-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(139,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .merch-overlay-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+  }
+
+  .merch-overlay-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .merch-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  .merch-label-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .merch-label-price {
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  .merch-footer {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .merch-footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 20px;
+  }
+
+  /* EMAIL SECTION */
+  .email-section {
+    background: var(--dark-2);
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .email-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 50% 100% at 50% 100%, rgba(139,0,0,0.1), transparent);
+  }
+
+  .email-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 54px);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .email-section p {
+    color: var(--gray);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .email-form {
+    display: flex;
+    gap: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .email-form input {
+    flex: 1;
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-right: none;
+    padding: 16px 20px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .email-form input:focus {
+    border-color: var(--crimson);
+  }
+
+  .email-form input::placeholder {
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  .email-form button {
+    background: var(--crimson);
+    border: none;
+    padding: 16px 28px;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .email-form button:hover { background: var(--crimson-bright); }
+
+  .email-note {
+    margin-top: 14px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SOCIAL / FOOTER */
+  footer {
+    padding: 60px 40px 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+  }
+
+  .footer-logo span { color: var(--crimson-bright); }
+
+  .footer-social {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .footer-social a {
+    color: var(--gray);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-social a:hover { color: var(--crimson-bright); }
+
+  .footer-copy {
+    color: rgba(255,255,255,0.15);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    margin-top: 20px;
+  }
+
+  /* FADE IN ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .training-inner { grid-template-columns: 1fr; gap: 40px; }
+    .merch-grid { grid-template-columns: repeat(2, 1fr); }
+    .merch-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    footer { flex-direction: column; text-align: center; }
+    .email-form { flex-direction: column; }
+    .email-form input { border-right: 1px solid rgba(255,255,255,0.1); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">B<span>.</span>W<span>.</span>U</a>
+  <ul class="nav-links">
+    <li><a href="#training">Training</a></li>
+    <li><a href="#merch">Merch</a></li>
+    <li><a href="https://instagram.com/buffworldunited" target="_blank">Community</a></li>
+    <li><a href="https://calendly.com/buffworldunited/30min" target="_blank" class="btn-primary" style="padding: 10px 24px; clip-path: none;">Book a Session</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-text">BWU</div>
+
+  <img 
+    class="hero-mascot" 
+    src="https://i.imgur.com/placeholder.png" 
+    onerror="this.style.display='none'; document.getElementById('mascot-fallback').style.display='block';"
+    alt="BuffWorld Mascot"
+  />
+  <div id="mascot-fallback" style="display:block; margin-bottom:10px; height: 20px;"></div>
+
+  <div class="hero-brand">
+    BUFF<span class="red">WORLD</span><br>UNITED
+  </div>
+
+  <div class="hero-sub">Est. San Diego &nbsp;·&nbsp; B.W.U</div>
+
+  <div class="hero-tagline">
+    It's not about how you look.<br>
+    It's about <em>how you feel.</em><br>
+    The buff spirit is in everyone.
+  </div>
+
+  <div class="hero-ctas">
+    <a href="https://calendly.com/buffworldunited/30min" target="_blank" class="btn-primary">Book a Training Call</a>
+    <a href="#merch" class="btn-secondary">Shop Coming Soon</a>
+  </div>
+
+  <div class="scroll-indicator">Scroll</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="community">
+  <div class="section-label fade-up">The BuffWorld Philosophy</div>
+  <h2 class="fade-up">Progress<br>Beats Perfection</h2>
+  <p class="fade-up">
+    We don't care if you can bench 300 or 30. What we care about is that you showed up. 
+    BuffWorld United is built for people who are done waiting until they're "ready" — 
+    because the only way to get ready is to start. Every rep, every day, every choice 
+    toward a better you. That's the buff spirit. And it lives in all of us.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- TRAINING -->
+<section class="training" id="training">
+  <div class="training-inner">
+    <div class="training-content fade-up">
+      <div class="section-label">1-on-1 Coaching</div>
+      <h2>GET YOUR<br><span>PLAN.</span></h2>
+      <p>
+        No more guessing in the gym. No more random YouTube routines. 
+        Kevin will personally build you a training split and dial in your 
+        nutrition so you know exactly what to do — and why. 
+        You show up. He builds the roadmap.
+      </p>
+      <p style="color: var(--gray); font-size: 0.9rem;">
+        Ideal for people who are serious about starting — 3 to 5 days a week, 
+        ready to commit, just need the structure to make it real.
+      </p>
+    </div>
+
+    <div class="training-card fade-up">
+      <div class="card-label">BuffWorld Coaching Session</div>
+      <div class="card-title">THE BLUEPRINT</div>
+      <div class="card-duration">30 Minutes · Virtual</div>
+
+      <ul class="card-includes">
+        <li>Custom training split built around your schedule</li>
+        <li>Daily macro targets for your specific goal</li>
+        <li>Supplement recommendations that actually make sense</li>
+        <li>Written plan doc delivered after the session</li>
+        <li>No fluff. No upsell. Just the plan.</li>
+      </ul>
+
+      <div class="card-price">$60 <span>/ session</span></div>
+
+      <a href="https://calendly.com/buffworldunited/30min" target="_blank" class="btn-primary" style="display: block; text-align: center; width: 100%;">Book Your Session</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MERCH -->
+<section class="merch" id="merch">
+  <div class="merch-header">
+    <div>
+      <div class="section-label fade-up">BuffWorld Merch</div>
+      <h2 class="fade-up">THE <span>DROP</span><br>IS COMING</h2>
+    </div>
+    <div class="drop-badge">Drop Incoming</div>
+  </div>
+
+  <div class="merch-grid">
+    <!-- Shirt -->
+    <div class="merch-item">
+      <div class="merch-img-placeholder">
+        <div class="merch-bwu-watermark">BWU</div>
+        <div class="merch-icon">👕</div>
+        <div class="merch-coming">Coming Soon</div>
+      </div>
+      <div class="merch-overlay">
+        <div class="merch-overlay-text">Drop Soon</div>
+        <div class="merch-overlay-sub">Join the list to be first</div>
+      </div>
+      <div class="merch-label">
+        <div class="merch-label-name">BWU Tee</div>
+        <div class="merch-label-price">Drop TBD</div>
+      </div>
+    </div>
+
+    <!-- Sweatshirt -->
+    <div class="merch-item">
+      <div class="merch-img-placeholder">
+        <div class="merch-bwu-watermark">BWU</div>
+        <div class="merch-icon">🧥</div>
+        <div class="merch-coming">Coming Soon</div>
+      </div>
+      <div class="merch-overlay">
+        <div class="merch-overlay-text">Drop Soon</div>
+        <div class="merch-overlay-sub">Join the list to be first</div>
+      </div>
+      <div class="merch-label">
+        <div class="merch-label-name">BWU Crewneck</div>
+        <div class="merch-label-price">Drop TBD</div>
+      </div>
+    </div>
+
+    <!-- Shorts -->
+    <div class="merch-item">
+      <div class="merch-img-placeholder">
+        <div class="merch-bwu-watermark">BWU</div>
+        <div class="merch-icon">🩳</div>
+        <div class="merch-coming">Coming Soon</div>
+      </div>
+      <div class="merch-overlay">
+        <div class="merch-overlay-text">Drop Soon</div>
+        <div class="merch-overlay-sub">Join the list to be first</div>
+      </div>
+      <div class="merch-label">
+        <div class="merch-label-name">BWU Shorts</div>
+        <div class="merch-label-price">Drop TBD</div>
+      </div>
+    </div>
+
+    <!-- Hat -->
+    <div class="merch-item">
+      <div class="merch-img-placeholder">
+        <div class="merch-bwu-watermark">BWU</div>
+        <div class="merch-icon">🧢</div>
+        <div class="merch-coming">Coming Soon</div>
+      </div>
+      <div class="merch-overlay">
+        <div class="merch-overlay-text">Drop Soon</div>
+        <div class="merch-overlay-sub">Join the list to be first</div>
+      </div>
+      <div class="merch-label">
+        <div class="merch-label-name">BWU Hat</div>
+        <div class="merch-label-price">Drop TBD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="merch-footer fade-up">
+    <p>Be the first to know when the drop happens</p>
+    <a href="#notify" class="btn-secondary">Join the List</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EMAIL CAPTURE -->
+<section class="email-section" id="notify">
+  <h2 class="fade-up">STAY IN<br>THE LOOP</h2>
+  <p class="fade-up">Drop alerts · Training tips · BWU updates</p>
+  <form class="email-form fade-up" action="https://gmail.us19.list-manage.com/subscribe/post?u=05cd4e9d772209caf8a802283&amp;id=68d7ccd982&amp;f_id=00132de7f0" method="post" target="_blank" novalidate>
+    <input type="email" name="EMAIL" placeholder="Your email address" required />
+    <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="b_05cd4e9d772209caf8a802283_68d7ccd982" tabindex="-1" value=""></div>
+    <button type="submit" name="subscribe">Join</button>
+  </form>
+  <div class="email-note">No spam. Ever. Just BWU.</div>
+  <div id="form-success" style="display:none; margin-top:16px; color:var(--crimson-bright); font-family:'Barlow Condensed',sans-serif; letter-spacing:2px; text-transform:uppercase; font-size:0.9rem; position:relative; z-index:1;">
+    You're in. We'll hit you when the drop is live.
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BUFF<span>WORLD</span> UNITED</div>
+  <div class="footer-social">
+    <a href="https://instagram.com/buffworldunited" target="_blank">Instagram</a>
+    <a href="https://calendly.com/buffworldunited/30min" target="_blank">Book a Session</a>
+  </div>
+  <div class="footer-copy">© 2025 BuffWorld United · San Diego, CA · All Rights Reserved</div>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Email form - stores to localStorage as placeholder for Google Sheets
+  function handleSubmit(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    const emails = JSON.parse(localStorage.getItem('bwu_emails') || '[]');
+    emails.push({ email, timestamp: new Date().toISOString() });
+    localStorage.setItem('bwu_emails', JSON.stringify(emails));
+    e.target.style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+    console.log('BWU Email captured:', email);
+  }
+</script>
+
+</body>
+</html>
